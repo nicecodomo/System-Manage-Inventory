@@ -1,9 +1,9 @@
 <?php
     class Database
     {
-        private $host = "localhost";
-        private $db = "system_manage_inventory";
-        private $username = "root";
+        private $host = "";
+        private $db = "";
+        private $username = "";
         private $password = "";
         public $conn;
 
