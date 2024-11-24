@@ -480,6 +480,19 @@ class InventoryManagement
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getPendingLoansByUser($userId)
+    {
+        $query = "SELECT l.*, u.user_name, e.equ_name 
+                  FROM {$this->loan_table} l 
+                  JOIN tb_user u ON l.user_id = u.user_id 
+                  JOIN {$this->equipment_table} e ON l.equ_id = e.equ_id 
+                  WHERE u.user_id = :userId and l.loan_status = 'รออนุมัติ'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":userId", $userId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getApprovedLoans()
     {
         $query = "SELECT l.*, u.user_name, e.equ_name 

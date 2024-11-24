@@ -52,12 +52,13 @@ $equipment = $inventoryManager->getAllEquipment(false); // หรือใช้
         <div class="col-md-6">
             <h3>เลือกครุภัณฑ์</h3>
             <div class="card">
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>ชื่อครุภัณฑ์</th>
                                 <th>ประเภท</th>
+                                <th>สภาพ</th>
                                 <th>สถานะ</th>
                                 <th>สถานที่</th>
                                 <th>เลือก</th>
@@ -68,6 +69,7 @@ $equipment = $inventoryManager->getAllEquipment(false); // หรือใช้
                                 <tr>
                                     <td><?php echo htmlspecialchars($item['equ_name']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_type']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['equ_condition']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_status']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_location']); ?></td>
                                     <td>

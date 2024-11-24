@@ -24,8 +24,8 @@ $equipment = $inventoryManager->getAllEquipment(false);
 // คำนวณจำนวนวัสดุที่เบิกได้
 $totalMaterials = count($materials);
 $totalEquipment = count($equipment);
-$totalPendingRequests = $requestManager->getPendingRequests(); // ฟังก์ชันที่ต้องสร้างใน InventoryManagement
-$totalOverdueLoans = $inventoryManager->getOverdueLoans(); // ฟังก์ชันที่ต้องสร้างใน InventoryManagement
+$totalPendingRequests = $requestManager->getPendingRequestsByUser($_SESSION['userid']);
+$totalPendingLoanCount = $inventoryManager->getPendingLoansByUser($_SESSION['userid']);
 ?>
 
 <div class="container">
@@ -69,28 +69,28 @@ $totalOverdueLoans = $inventoryManager->getOverdueLoans(); // ฟังก์ช
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3><?php echo count($totalPendingRequests); ?></h3>
-                    <p>คำขอที่รออนุมัติ</p>
+                    <p>คำขอเบิกที่รออนุมัติ</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-clock"></i>
                 </div>
                 <a href="my_requests.php" class="small-box-footer">
-                    ประวัติคำขอ <i class="fas fa-arrow-circle-right"></i>
+                    ตรวจสอบ <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
 
-        <!-- การยืมที่เกินกำหนด -->
+        <!-- การยืมที่รออนุมัติ -->
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3><?php echo count($totalOverdueLoans); ?></h3>
-                    <p>การยืมที่เกินกำหนด</p>
+                    <h3><?php echo count($totalPendingLoanCount); ?></h3>
+                    <p>การยืมที่รออนุมัติ</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                 </div>
-                <a href="manage_equipment.php" class="small-box-footer">
+                <a href="my_loans.php" class="small-box-footer">
                     ตรวจสอบ <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -103,7 +103,7 @@ $totalOverdueLoans = $inventoryManager->getOverdueLoans(); // ฟังก์ช
                 <div class="card-header">
                     <h2>วัสดุ</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -133,12 +133,13 @@ $totalOverdueLoans = $inventoryManager->getOverdueLoans(); // ฟังก์ช
                 <div class="card-header">
                     <h2>ครุภัณฑ์</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ชื่อครุภัณฑ์</th>
                                 <th>ประเภท</th>
+                                <th>สถาพ</th>
                                 <th>สถานะ</th>
                                 <th>สถานที่</th>
                             </tr>
@@ -148,6 +149,7 @@ $totalOverdueLoans = $inventoryManager->getOverdueLoans(); // ฟังก์ช
                                 <tr>
                                     <td><?php echo htmlspecialchars($item['equ_name']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_type']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['equ_condition']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_status']); ?></td>
                                     <td><?php echo htmlspecialchars($item['equ_location']); ?></td>
                                 </tr>

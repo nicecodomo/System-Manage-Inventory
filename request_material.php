@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['materials'])) {
         <div class="col-md-6">
             <h3>เลือกวัสดุ</h3>
             <div class="card">
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
