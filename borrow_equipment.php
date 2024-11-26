@@ -16,7 +16,8 @@ $db = $database->getConnection();
 $inventoryManager = new InventoryManagement($db);
 
 // ดึงข้อมูลครุภัณฑ์ที่สามารถยืมได้
-$equipment = $inventoryManager->getAllEquipment(false); // หรือใช้ฟังก์ชันที่กรองครุภัณฑ์ที่สามารถยืมได้
+// $equipment = $inventoryManager->getAllEquipment(false);
+$equipment = $inventoryManager->getAvailableEquipment(false); // หรือใช้ฟังก์ชันที่กรองครุภัณฑ์ที่สามารถยืมได้
 
 ?>
 

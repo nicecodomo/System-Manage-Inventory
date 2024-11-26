@@ -25,13 +25,15 @@ class ReportManagement
                         r.req_status,
                         r.req_date,
                         u.user_name as requester_name,
+                        d.dep_id,
                         d.dep_name as department_name
                  FROM {$this->material_request_table} r
                  JOIN {$this->materials_table} m ON r.mat_id = m.mat_id
                  JOIN tb_user u ON r.user_id = u.user_id
                  JOIN {$this->department_table} d ON u.dep_id = d.dep_id
                  WHERE r.req_date BETWEEN :startDate AND :endDate
-                 GROUP BY m.mat_id, r.req_status, d.dep_id";
+                 GROUP BY m.mat_id, r.req_status, d.dep_id
+                 ORDER BY r.req_date DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":startDate", $startDate);
@@ -250,6 +252,8 @@ class ReportManagement
         if ($status !== 'all') {
             if ($status === 'เกินกำหนด') {
                 $query .= " AND l.loan_status = 'อนุมัติแล้ว' AND DATEDIFF(CURRENT_DATE, l.loan_return_date) > 0";
+            } else if ($status === 'กำลังยืม') {
+                $query .= " AND l.loan_status = 'อนุมัติแล้ว'";
             } else {
                 $query .= " AND l.loan_status = :status";
             }
@@ -265,7 +269,7 @@ class ReportManagement
             $stmt->bindParam(":departmentId", $departmentId);
         }
 
-        if ($status !== 'all' && $status !== 'เกินกำหนด') {
+        if ($status !== 'all' && $status !== 'เกินกำหนด' && $status !== 'กำลังยืม') {
             $stmt->bindParam(":status", $status);
         }
 

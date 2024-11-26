@@ -419,6 +419,20 @@ class InventoryManagement
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAvailableEquipment($includeDeleted = true)
+    {
+        $query = "SELECT * FROM {$this->equipment_table} WHERE equ_status = 'ว่าง'";
+
+        // ถ้าไม่รวมสถานะ deleted
+        if (!$includeDeleted) {
+            $query .= " AND status != 'deleted'";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // อัพเดทข้อมูลครุภัณฑ์
     public function updateEquipment($equId, $name, $type, $condition, $location)
     {

@@ -135,8 +135,10 @@ $approvalSummary = $reportManager->getApprovalSummaryReport($startDate, $endDate
                         <label for="status" class="mr-2">สถานะ</label>
                         <select class="form-control" id="status" name="status">
                             <option value="all" <?php echo $status == 'all' ? 'selected' : ''; ?>>ทั้งหมด</option>
-                            <option value="ถกยืม" <?php echo $status == 'ถูกยืม' ? 'selected' : ''; ?>>กำลังยืม</option>
+                            <option value="รออนุมัติ" <?php echo $status == 'รออนุมัติ' ? 'selected' : ''; ?>>รออนุมัติ</option>
+                            <option value="กำลังยืม" <?php echo $status == 'กำลังยืม' ? 'selected' : ''; ?>>กำลังยืม</option>
                             <option value="คืนแล้ว" <?php echo $status == 'คืนแล้ว' ? 'selected' : ''; ?>>คืนแล้ว</option>
+                            <option value="ไม่อนุมัติ" <?php echo $status == 'ไม่อนุมัติ' ? 'selected' : ''; ?>>ไม่อนุมัติ</option>
                             <option value="เกินกำหนด" <?php echo $status == 'เกินกำหนด' ? 'selected' : ''; ?>>เกินกำหนด</option>
                         </select>
                     </div>
@@ -159,25 +161,27 @@ $approvalSummary = $reportManager->getApprovalSummaryReport($startDate, $endDate
                 <table id="loanTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>วันที่ยืม</th>
                             <th>ครุภัณฑ์</th>
                             <th>ผู้ยืม</th>
                             <th>แผนก</th>
                             <th>กำหนดคืน</th>
-                            <th>วันที่คืน</th>
                             <th>สถานะ</th>
                             <th>หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($loanHistory as $loan): ?>
+                        <?php
+                        $i = 1;
+                        foreach ($loanHistory as $loan): ?>
                             <tr>
+                                <td><?php echo $i++; ?></td>
                                 <td><?php echo date('d/m/Y', strtotime($loan['loan_date'])); ?></td>
                                 <td><?php echo htmlspecialchars($loan['equ_name']); ?></td>
                                 <td><?php echo htmlspecialchars($loan['user_name']); ?></td>
                                 <td><?php echo htmlspecialchars($loan['department_name']); ?></td>
                                 <td><?php echo date('d/m/Y', strtotime($loan['loan_return_date'])); ?></td>
-                                <td><?php echo $loan['loan_return_date'] ? date('d/m/Y', strtotime($loan['loan_return_date'])) : '-'; ?></td>
                                 <td>
                                     <span class="badge badge-<?php
                                                                 echo $loan['loan_status'] === 'คืนแล้ว' ? 'success' : 

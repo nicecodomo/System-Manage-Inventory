@@ -195,6 +195,7 @@ $lowStockMaterials = array_filter($materialInventory, function ($item) {
                 <table id="requestTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>วันที่เบิก</th>
                             <th>ชื่อวัสดุ</th>
                             <th>จำนวน</th>
@@ -204,9 +205,12 @@ $lowStockMaterials = array_filter($materialInventory, function ($item) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($materialRequests as $request): ?>
+                        <?php 
+                        $i = 1;
+                        foreach ($materialRequests as $request): ?>
                             <?php if ($departmentId == 'all' || $request['dep_id'] == $departmentId): ?>
                                 <tr>
+                                    <td><?php echo $i++; ?></td>
                                     <td><?php echo date('d/m/Y', strtotime($request['req_date'])); ?></td>
                                     <td><?php echo htmlspecialchars($request['mat_name']); ?></td>
                                     <td><?php echo $request['total_quantity'] . ' ' . $request['mat_unit']; ?></td>

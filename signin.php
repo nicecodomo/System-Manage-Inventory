@@ -85,7 +85,7 @@ if (isset($_SESSION['userid'])) {
     <div class="login-box">
         <div class="login-logo text-center">
             <img src="dist/img/university.png" alt="Logo">
-            <h4 class="text-white mb-4">ระบบจัดการวัสดุครุภัณฑ์</h4>
+            <h4 class="text-white mb-4">ระบบการจัดการวัสดุครุภัณฑ์</h4>
         </div>
 
         <?php
