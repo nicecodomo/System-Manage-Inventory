@@ -17,9 +17,6 @@ $requestManager = new RequestManagement($db);
 
 // ดึงข้อมูลคำขอวัสดุของผู้ใช้งาน
 $allRequests = $requestManager->getAllRequestsByUser($_SESSION['userid']);
-$pendingRequests = $requestManager->getPendingRequestsByUser($_SESSION['userid']);
-$approvedRequests = $requestManager->getApprovedRequestsByUser($_SESSION['userid']);
-$rejectedRequests = $requestManager->getRejectedRequestsByUser($_SESSION['userid']);
 ?>
 
 <div class="container">
@@ -48,8 +45,6 @@ $rejectedRequests = $requestManager->getRejectedRequestsByUser($_SESSION['userid
                 <tbody id="requestBody">
                     <?php
                     $i = 1;
-                    // รวมคำขอทั้งหมด
-                    // $allRequests = array_merge($pendingRequests, $approvedRequests, $rejectedRequests);
                     foreach ($allRequests as $request): ?>
                         <tr class="request-row" data-status="<?php echo strtolower($request['req_status']); ?>">
                             <td><?php echo $i++; ?></td>
@@ -72,24 +67,22 @@ $rejectedRequests = $requestManager->getRejectedRequestsByUser($_SESSION['userid
 
 <script>
     $(document).ready(function() {
-        $('#requestTable').DataTable({
+        const table = $('#requestTable').DataTable({
             "responsive": true,
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Thai.json"
             }
         });
-    });
 
-    function filterRequests(status) {
-        const rows = document.querySelectorAll('.request-row');
-        rows.forEach(row => {
-            if (status === 'all' || row.getAttribute('data-status') === status.toLowerCase()) {
-                row.style.display = '';
+        window.filterRequests = function(status) {
+            table.columns().search(''); // Clear previous search
+            if (status === 'all') {
+                table.columns().search('').draw(); // Show all
             } else {
-                row.style.display = 'none';
+                table.columns(4).search(status).draw(); // Filter by status
             }
-        });
-    }
+        };
+    });
 </script>
 
 <?php

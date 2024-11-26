@@ -1,14 +1,21 @@
 <?php
     class Database
     {
-        private $host = "";
-        private $db = "";
-        private $username = "";
-        private $password = "";
+        private $host;
+        private $db;
+        private $username;
+        private $password;
         public $conn;
 
         public function __construct()
         {
+            // Load configuration
+            $config = require 'class/Config.php';
+            $this->host = $config['DB_HOST'];
+            $this->db = $config['DB_NAME'];
+            $this->username = $config['DB_USERNAME'];
+            $this->password = $config['DB_PASSWORD'];
+
             // Set ว/ด/ป เวลา ให้เป็นของประเทศไทย
             date_default_timezone_set('Asia/Bangkok');
         }

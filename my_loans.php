@@ -69,24 +69,22 @@ $loanRequests = $requestManager->getLoanRequestsByUser($_SESSION['userid']);
 
 <script>
     $(document).ready(function() {
-        $('#loanRequestsTable').DataTable({
+        const table = $('#loanRequestsTable').DataTable({
             "responsive": true,
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Thai.json"
             }
         });
-    });
 
-    function filterLoans(status) {
-        const rows = document.querySelectorAll('.loan-row');
-        rows.forEach(row => {
-            if (status === 'all' || row.getAttribute('data-status') === status.toLowerCase()) {
-                row.style.display = '';
+        window.filterLoans = function(status) {
+            table.columns().search(''); // Clear previous search
+            if (status === 'all') {
+                table.columns().search('').draw(); // Show all
             } else {
-                row.style.display = 'none';
+                table.columns(2).search(status).draw(); // Filter by status
             }
-        });
-    }
+        };
+    });
 </script>
 
 <?php

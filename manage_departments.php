@@ -115,7 +115,7 @@ $departments = $userManager->getAllDepartmentsWithUserCount();
                     <thead>
                         <tr>
                             <th>ชื่อแผนก</th>
-                            <th>รายละเอียด</th>
+                            <th>เบอร์โทร</th>
                             <th>จำนวนผู้ใช้งาน</th>
                             <th>จัดการ</th>
                         </tr>
